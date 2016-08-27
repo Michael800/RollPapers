@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>巻きすぎ注意</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/padolsey-archive/jquery.fn/master/cross-domain-ajax/jquery.xdomainajax.js"></script>
+  <script type='text/javascript'>
+    var show = function() {
+      $.get("http://sabae.club/siot/", function(r){
+        console.log(r.responseText);
+        console.log(r.responseText.replace(/<.*>/g, ''));
+        src = eval(r.responseText.replace(/<.*>/g, '')).filter(function (x){
+          return x.channel === 5;
+        }).pop();
+        var el = document.getElementById("view");
+        console.log(src);
+        console.log(JSON.stringify(src));
+        el.innerHTML = "巻数：" + myRound(src.value/8.0, 2);
+      });
+    };
+    
+   function myRound(val, precision){
+     digit = Math.pow(10, precision);
+     val = val * digit;
+ 
+     val = Math.round(val);
+     val = val / digit;
+     return val;
+   }
+    
+    window.onload = function() {
+      show();
+    }
+  </script>
+</head>
+<body>
+  <h1>巻きすぎ注意</h1>
+  <p id="view"></p>
+</body>
+</html>
